@@ -7,10 +7,12 @@ import android.util.JsonReader;
 import android.util.Log;
 
 import com.example.retrofit.Api.Api;
+import com.example.retrofit.model.Users;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -30,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
         retrofitClient = RetrofitClient.getInstance();
         api = retrofitClient.getApi();
-        getData();
+//        getData();
+        getUsers();
+        getUsersById();
 
 //        Call<ResponseBody> call = api.getResponse();
 //        call.enqueue(new Callback<ResponseBody>() {
@@ -57,6 +61,53 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    private void getUsersById() {
+        Call<Users> call = RetrofitClient.getInstance().getApi().getUsersById(4);
+        call.enqueue(new Callback<Users>() {
+            @Override
+            public void onResponse(Call<Users> call, Response<Users> response) {
+                if(!response.isSuccessful()){
+                    Log.d(TAG, "onResponse: Code: "+response.code());
+                }
+
+                Log.d(TAG, "onResponse: Code: "+response.code());
+                Log.d(TAG, "onResponse: Message: "+response.message());
+                Log.d(TAG, "onResponse: Response: "+response.body());
+                Users users = response.body();
+                Log.d(TAG, "onResponse: userById: "+users);
+
+            }
+
+            @Override
+            public void onFailure(Call<Users> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t);
+
+            }
+        });
+    }
+
+    private void getUsers() {
+        Call<List<Users>> call = RetrofitClient.getInstance().getApi().getUsers();
+        call.enqueue(new Callback<List<Users>>() {
+            @Override
+            public void onResponse(Call<List<Users>> call, Response<List<Users>> response) {
+                if(!response.isSuccessful()){
+                    Log.d(TAG, "onResponse: code:  "+response.code());
+                }
+                List<Users> users = response.body();
+                Log.d(TAG, "onResponse:Users Data Git: "+users);
+                Log.d(TAG, "onResponse: Response Git: "+response.body());
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Users>> call, Throwable t) {
+
+            }
+        });
+    }
+
     public  void getData(){
         Call<JsonArray> call1 = api.getRes();
         call1.enqueue(new Callback<JsonArray>() {

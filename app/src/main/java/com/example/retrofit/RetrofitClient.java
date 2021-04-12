@@ -24,7 +24,8 @@ import retrofit2.http.Body;
 public class RetrofitClient {
 
     private static RetrofitClient mInstance= null;
-    private String Base_Url = "https://simplifiedcoding.net/demos/";
+//    private String Base_Url = "https://simplifiedcoding.net/demos/";
+    private String Base_Url = "https://jsonplaceholder.typicode.com/";
     private Retrofit retrofit;
     private Api mApi;
 
